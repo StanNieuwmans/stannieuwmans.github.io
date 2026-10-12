@@ -237,41 +237,57 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
   </div>
 </section>
 
-<section id="goals" aria-labelledby="goals-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 112px; display: flex; flex-direction: column; gap: 48px;">
-  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 720px;">
+<section id="goals" aria-labelledby="goals-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 112px; display: flex; flex-direction: column; gap: 40px;">
+  <div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
     <h2 id="goals-title" style="margin: 0; font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.03em;">Work that carries on without you.</h2>
-    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #6b6b6b;">Goals and Routines run in the background, inside limits you set. Nothing starts until you press Start.</p>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #6b6b6b;">Goals and Routines run in the background, inside limits you set.</p>
   </div>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px;">
-    <article style="padding: 32px; border: 1px solid #e6e6e6; border-radius: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 20px;">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #ffe9dd; color: #b5470f; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.5"></circle></svg></span>
-        <h3 style="margin: 0; font-size: 24px; letter-spacing: -0.02em;">Goals</h3>
-      </div>
-      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #6b6b6b;">An objective it pursues over days. Say "keep an eye out for X", and the Assistant proposes a Goal instead of just starting.</p>
-      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">A proposal card.</strong> It shows the objective, the budget (a cap per day and in total, in euros, and a check-in interval) and what it may do. Nothing runs until you press Start this Goal.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">A step every hour.</strong> In the background, using only that Goal's own apps. Every action goes through its Action tier, and an Ask-first action waits for you while the rest carries on.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">A budget it cannot pass.</strong> At the daily cap it pauses until the next day. At the total cap it stops for good. Either way it says so in the Chat.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Check-ins.</strong> A message in the Chat at least once per check-in interval, even when nothing happened.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">You stay in control.</strong> Pause, resume or stop any Goal. The Stop command halts every Goal at once and cancels each waiting Approval request.</li>
-      </ul>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 16px;">
+    <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.5"></circle></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">Goals</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">An objective over days</span>
+          </div>
+        </div>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">1</span>
+            <span style="padding-top: 3px;">You say what you want. The Assistant proposes a Goal with a budget.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">2</span>
+            <span style="padding-top: 3px;">You press <strong>Start</strong>. Nothing runs before that.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">3</span>
+            <span style="padding-top: 3px;">It works in the background, a step an hour, inside its budget.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">4</span>
+            <span style="padding-top: 3px;">It checks in at least once per interval. Pause or stop it any time.</span>
+          </li>
+        </ol>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">At the daily cap it pauses until tomorrow. At the total cap it stops. The Stop command halts every Goal at once.</p>
     </article>
-    <article style="padding: 32px; border: 1px solid #e6e6e6; border-radius: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 20px;">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #fff1d6; color: #7a4b00; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7"></circle><path d="M12 9v4l2.5 2M9 3h6"></path></svg></span>
-        <h3 style="margin: 0; font-size: 24px; letter-spacing: -0.02em;">Routines</h3>
-      </div>
-      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #6b6b6b;">Something it does on a schedule, and switch off whenever you like. The first one is the Morning brief.</p>
-      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">The Morning brief.</strong> You pick the time, the days and what is in it: today's meetings, mail that needs you, Goals and Approval requests waiting, and what Goals spent yesterday. It is off on a new Instance, so nothing arrives unasked.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Your own Routines.</strong> Ask for "check the padel courts every Tuesday" and the Assistant proposes one: what it does, when, which apps, and its limits (€0.50 a run and €5 a month unless you say otherwise). Nothing runs until you press Start.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Your time zone.</strong> A brief at 07:30 stays at 07:30 when the clocks change. One missed while the server was off runs once when it is back, never twice.</li>
-        <li style="padding: 14px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Quiet hours.</strong> Daily hours, like 23:00 to 07:00, in which the Assistant starts nothing: no Routine, no Goal step, no Check-in and no notification. What is due waits until they end. You can still chat.</li>
-      </ul>
+    <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7"></circle><path d="M12 9v4l2.5 2M9 3h6"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">Routines</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">Something on a schedule</span>
+          </div>
+        </div>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Morning brief.</strong> Your meetings, mail that needs you, and what is waiting. Off until you switch it on.</li>
+          <li style="font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Your own.</strong> Ask for &ldquo;check the padel courts every Tuesday&rdquo;. It proposes, you press Start. Limits default to €0.50 a run and €5 a month.</li>
+          <li style="font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Quiet hours.</strong> Set the times when it starts nothing at all.</li>
+        </ul>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Times follow your time zone, also when the clocks change.</p>
     </article>
   </div>
-  <p style="margin: 0; max-width: 720px; font-size: 15px; line-height: 1.5; color: #6b6b6b;">Goals and Routines use the Goal model. Their spend is counted from the tokens your provider reports, at the model's price; for now those prices are provisional.</p>
+  <p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Spend is counted from the tokens your provider reports, at the model's price. For now those prices are provisional.</p>
 </section>
 
 <section id="tiers" aria-labelledby="tiers-title" style="background: #ffffff; border-top: 1px solid #ededed; border-bottom: 1px solid #ededed;">
@@ -459,60 +475,84 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
 </section>
 
 <section id="apps" aria-labelledby="apps-title" style="background: #ffffff; border-top: 1px solid #ededed;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 112px 24px; display: flex; flex-direction: column; gap: 48px;">
-    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 720px;">
-      <h2 id="apps-title" style="margin: 0; font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.03em;">Make it an app on your phone and computer.</h2>
-      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #6b6b6b;">Open your Instance's address in a browser first, and sign in with your passkey. Then put it where you can reach it in one tap.</p>
+  <div style="max-width: 1200px; margin: 0 auto; padding: 112px 24px; display: flex; flex-direction: column; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+      <h2 id="apps-title" style="margin: 0; font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.03em;">Make it an app.</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #6b6b6b;">Open your Instance in a browser and sign in with your passkey. Then put it one tap away.</p>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px;">
-      <article style="padding: 32px; border: 1px solid #e6e6e6; border-radius: 24px; background: #fcfcfc; display: flex; flex-direction: column; gap: 24px;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #e4eefb; color: #1d4f91; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M11 18.5h2"></path></svg></span>
-          <h3 style="margin: 0; font-size: 24px; letter-spacing: -0.02em;">On your phone</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px;">
+      <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M11 18.5h2"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">iPhone</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">In Safari</span>
+          </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <strong style="font-size: 17px;">iPhone, in Safari</strong>
-          <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">1. Tap Share.</strong> The square with an arrow, in your browser bar.</li>
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">2. Add to Home Screen.</strong> Scroll down in the list and tap it.</li>
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">3. Open Baken from there.</strong> Then sign in with your passkey.</li>
-          </ol>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <strong style="font-size: 17px;">Android, in Chrome and others</strong>
-          <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">1. Open the browser menu.</strong> The three dots, at the top right.</li>
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">2. Add to Home screen.</strong> Some browsers call it Install app.</li>
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">3. Open Baken from there.</strong> Then sign in with your passkey.</li>
-          </ol>
-        </div>
-        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #6b6b6b;">On an iPhone, notifications only work from the home screen. They come only for Approval requests, Goal Check-ins and Routines, and by default the lock screen just says "Baken needs you". Baken shows these steps too, under Account, Notifications.</p>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">1</span>
+            <span style="padding-top: 3px;">Tap <strong>Share</strong>, the square with an arrow.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">2</span>
+            <span style="padding-top: 3px;">Tap <strong>Add to Home Screen</strong>.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">3</span>
+            <span style="padding-top: 3px;">Open Baken from your home screen.</span>
+          </li>
+        </ol>
       </article>
-      <article style="padding: 32px; border: 1px solid #e6e6e6; border-radius: 24px; background: #fcfcfc; display: flex; flex-direction: column; gap: 24px;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #ede7fb; color: #5b3fb0; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
-          <h3 style="margin: 0; font-size: 24px; letter-spacing: -0.02em;">On your computer</h3>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;">
-            <strong style="font-size: 17px;">As a web app, today</strong>
-            <span style="padding: 4px 12px; border-radius: 999px; background: #e3f3ea; color: #1e6b45; font-size: 13px; font-weight: 700;">Works now</span>
+      <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M11 18.5h2"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">Android</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">In Chrome and others</span>
           </div>
-          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Chrome or Edge.</strong> Choose Install for your Instance's address.</li>
-            <li style="padding: 12px 0; border-top: 1px solid #ededed; font-size: 16px; line-height: 1.5; color: #6b6b6b;"><strong style="color: #111111;">Safari on a Mac.</strong> File, then Add to Dock.</li>
-          </ul>
-          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #6b6b6b;">It then opens in a window of its own and can send notifications.</p>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;">
-            <strong style="font-size: 17px;">The desktop app</strong>
-            <span style="padding: 4px 12px; border-radius: 999px; background: #fff1d6; color: #7a4b00; font-size: 13px; font-weight: 700;">Not available yet</span>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">1</span>
+            <span style="padding-top: 3px;">Open the browser menu, the three dots.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">2</span>
+            <span style="padding-top: 3px;">Tap <strong>Add to Home screen</strong>, or <strong>Install app</strong>.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">3</span>
+            <span style="padding-top: 3px;">Open Baken from your home screen.</span>
+          </li>
+        </ol>
+      </article>
+      <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">Computer</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">In Chrome or Edge</span>
           </div>
-          <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #6b6b6b;">A window of its own for macOS, Windows and Linux. It remembers your Instance's address, tells you exactly why an address does not work, and shows notifications for Approval requests, Check-ins and Routines while it runs. Builds exist, but they are not signed yet, so there is no download. Where its window cannot use passkeys, it signs you in through your system browser.</p>
         </div>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">1</span>
+            <span style="padding-top: 3px;">Open your Instance.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">2</span>
+            <span style="padding-top: 3px;">Choose <strong>Install</strong>.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.45; color: #111111;">
+            <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #111111; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">3</span>
+            <span style="padding-top: 3px;">Open Baken like any other app.</span>
+          </li>
+        </ol>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Safari on a Mac: File, then Add to Dock.</p>
       </article>
     </div>
+    <p style="margin: 0; max-width: 760px; font-size: 15px; line-height: 1.5; color: #6b6b6b;">On an iPhone, notifications only work from the home screen. A desktop app for macOS, Windows and Linux is in the works, with no download yet.</p>
   </div>
 </section>
 
