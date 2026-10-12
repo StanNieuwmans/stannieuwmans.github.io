@@ -51,7 +51,7 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
 @media (max-width:640px){
 #top{padding-top:32px !important;padding-bottom:56px !important;gap:40px !important}
 #features,#models,#install{padding-top:64px !important;padding-bottom:64px !important}
-#goals{padding-bottom:64px !important}
+#goals,#machine{padding-bottom:64px !important}
 #tiers > div,#eu > div,#apps > div{padding-top:64px !important;padding-bottom:64px !important}
 #tiers li{flex-wrap:wrap !important;gap:10px 16px !important}
 .chat-side{display:none !important}
@@ -471,6 +471,79 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
         <span style="font-size: 15px; line-height: 1.5; color: #6b6b6b;">Mistral by default. Or point Baken at a model on your own server and skip the key.</span>
       </li>
     </ul>
+  </div>
+</section>
+
+<section id="machine" aria-labelledby="machine-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 112px; display: flex; flex-direction: column; gap: 40px;">
+  <div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+    <h2 id="machine-title" style="margin: 0; font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.03em;">What it runs on.</h2>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #6b6b6b;">An Instance is one deployment on a machine of its own. Next to it sits a Workspace, locked down and kept apart.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr)); gap: 16px;">
+      <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"></rect><rect x="3" y="14" width="18" height="6" rx="1.5"></rect><path d="M7 7h.01M7 17h.01"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">The Instance</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">One machine, for one Operator</span>
+          </div>
+        </div>
+        <dl style="margin: 0; display: flex; flex-direction: column;">
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Tested on</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">Railway, in the Amsterdam region</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Size</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">2 vCPUs and 4 GB of memory</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Data</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">A 5 GB volume, on a single replica</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Your own server</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">Ubuntu 24.04 or Debian. 2 vCPUs and 4 GB is enough to start, and Arm works too. Planned, not tested yet.</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Disk</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">Leave a few GB free for the images. The Workspace&rsquo;s browser alone is about 450 MB.</dd>
+          </div>
+        </dl>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">The Instance holds your Chat, Memory, Goals and Routines, and the keys to your apps.</p>
+      </article>
+      <article style="padding: 28px; border-radius: 24px; background: #f7f7f7; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #ffffff; color: #111111; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5l8 4.5 8-4.5M12 12v9"></path></svg></span>
+          <div style="display: flex; flex-direction: column;">
+            <h3 style="margin: 0; font-size: 20px; letter-spacing: -0.01em;">The Workspace</h3>
+            <span style="font-size: 14px; color: #6b6b6b;">Where the Assistant runs code and browses</span>
+          </div>
+        </div>
+        <dl style="margin: 0; display: flex; flex-direction: column;">
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">On Railway</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">A Railway Sandbox: a small VM made on the first run, and destroyed after 10 minutes without one. Billed per second.</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">On your own server</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">A container next to the core, with no network at all.</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Per run</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">In the container: 1 CPU, 1 GB of memory, 256 processes, and 2 minutes by default.</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Space</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">1 GB to work in and 512 MB temporary, emptied after every run.</dd>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #e6e6e6;">
+            <dt style="flex: 0 0 130px; font-size: 14px; line-height: 1.5; color: #6b6b6b;">Firewall</dt>
+            <dd style="flex: 1 1 200px; min-width: 0; margin: 0; font-size: 16px; line-height: 1.5; color: #111111;">On Railway it is set up and tested from inside before every run. If the test fails, nothing runs.</dd>
+          </div>
+        </dl>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #6b6b6b;">It holds no credentials and cannot reach your Memory.</p>
+      </article>
   </div>
 </section>
 
