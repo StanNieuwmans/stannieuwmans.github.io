@@ -35,13 +35,18 @@ a{color:#111111}a:hover{color:#6b6b6b}
 body{-webkit-text-size-adjust:100%}
 nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
 .site-header > a{min-height:44px}
+.nav-mobile{display:none}
+.menu-btn{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;box-sizing:border-box;padding:0 16px;border:1px solid #d0d0d0;border-radius:22px;background:#ffffff;color:#111111;font-size:15px;font-weight:600}
+.menu-btn::-webkit-details-marker{display:none}
+.nav-mobile:not([open]) .ico-close{display:none}
+.nav-mobile[open] .ico-open{display:none}
+.menu-panel{position:absolute;top:100%;left:0;right:0;z-index:10;display:flex;flex-direction:column;padding:4px 24px 16px;background:#fcfcfc;border-bottom:1px solid #e1e1e1;box-shadow:0 16px 32px rgba(0,0,0,0.08)}
+.menu-panel a{min-height:52px;padding:0;font-size:18px;color:#111111;text-decoration:none;border-bottom:1px solid #ededed}
+.menu-panel span{padding-top:16px;font-size:15px;color:#6b6b6b}
 @media (max-width:640px){
-.site-header{padding-top:8px !important;padding-bottom:0 !important;gap:0 16px !important}
-.site-header > a:first-child{order:1}
-.site-gh{order:2;margin-left:auto}
-.site-nav{order:3;flex-basis:100%;margin-left:0 !important;gap:0 18px !important;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
-.site-nav::-webkit-scrollbar{display:none}
-.hide-sm{display:none !important}
+.nav-desktop,.site-gh{display:none !important}
+.nav-mobile{display:block;margin-left:auto}
+.site-header{padding-top:8px !important;padding-bottom:8px !important}
 #top{padding-top:32px !important;padding-bottom:56px !important;gap:40px !important}
 #features,#models,#install{padding-top:64px !important;padding-bottom:64px !important}
 #tiers > div,#eu > div{padding-top:64px !important;padding-bottom:64px !important}
@@ -56,20 +61,37 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
 <body>
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif; color: #111111; background: #fcfcfc; -webkit-font-smoothing: antialiased;">
 
-<header class="site-header" style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px;">
+<div class="site-top" style="position: relative;">
+<header class="site-header" style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 8px 24px;">
   <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">
     <svg width="32" height="32" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M62 6C70 26 98 44 98 76C98 98 81 112 60 112C39 112 22 98 22 76C22 58 34 46 44 36C44 46 48 52 54 54C52 38 56 20 62 6Z" fill="#FF7A45"></path><path d="M60 62C66 72 80 78 80 92C80 103 71 108 60 108C49 108 40 103 40 92C40 80 53 74 60 62Z" fill="#FFA05E"></path><rect x="43" y="73" width="10" height="18" rx="5" fill="#111111"></rect><rect x="67" y="73" width="10" height="18" rx="5" fill="#111111"></rect></svg>
     Baken
   </a>
-  <nav aria-label="Main" class="site-nav" style="display: flex; align-items: center; gap: 4px 24px; font-size: 15px; margin-left: auto;">
+  <nav aria-label="Main" class="nav-desktop" style="display: flex; align-items: center; gap: 4px 24px; font-size: 15px; margin-left: auto;">
     <a href="#features" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">Features</a>
-    <a class="hide-sm" href="#tiers" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">Action tiers</a>
+    <a href="#tiers" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">Action tiers</a>
     <a href="#models" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">Models</a>
     <a href="#eu" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">EU-compliant</a>
     <a href="#install" style="text-decoration: none; color: #6b6b6b; padding: 12px 0;">Install</a>
   </nav>
   <span class="site-gh" style="display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 22px; border: 1px solid #d0d0d0; color: #6b6b6b; font-size: 15px; font-weight: 600;">GitHub · soon</span>
+  <details class="nav-mobile">
+    <summary class="menu-btn" aria-label="Menu">
+      <svg class="ico-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      <svg class="ico-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      Menu
+    </summary>
+    <nav aria-label="Main" class="menu-panel">
+      <a href="#features">Features</a>
+      <a href="#tiers">Action tiers</a>
+      <a href="#models">Models</a>
+      <a href="#eu">EU-compliant</a>
+      <a href="#install">Install</a>
+      <span>GitHub · open source soon</span>
+    </nav>
+  </details>
 </header>
+</div>
 
 <section id="top" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px 96px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px;">
   <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 28px;">
@@ -384,15 +406,14 @@ nav a{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:cent
 </div>
 <script>
 (function () {
-  var button = document.getElementById('copy');
-  var code = document.querySelector('#install code');
-  if (!button || !code || !navigator.clipboard) return;
-  button.addEventListener('click', function () {
-    var text = code.textContent.replace(/^\$\s*/, '');
-    navigator.clipboard.writeText(text).then(function () {
-      button.textContent = 'Copied';
-      setTimeout(function () { button.textContent = 'Copy'; }, 2000);
-    });
+  var menu = document.querySelector('.nav-mobile');
+  if (!menu) return;
+  function close() { menu.removeAttribute('open'); }
+  menu.addEventListener('click', function (event) {
+    if (event.target.closest('.menu-panel a')) close();
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && menu.open) { close(); menu.querySelector('summary').focus(); }
   });
 })();
 </script>
