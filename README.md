@@ -1,8 +1,10 @@
 # stannieuwmans.github.io
 
-The website for [Baken](https://github.com/StanNieuwmans/baken-ai), a personal assistant you own.
+The websites for [Baken](https://github.com/StanNieuwmans/baken-ai), a personal assistant you own,
+and [Dodo](https://github.com/StanNieuwmans/Dodo), a calm work layer on top of Azure DevOps.
 
-It is one static page, `public/baken/index.html`, with no build step, served at
-<https://stannieuwmans.github.io/baken/>. Every push to `main` publishes
+Each is a static page with no build step: `public/baken/index.html`, served at
+<https://stannieuwmans.github.io/baken/>, and `public/dodo/index.html` (English) plus
+`public/dodo/nl/index.html` (Dutch), served at <https://stannieuwmans.github.io/dodo/>. Every push to `main` publishes
 `public/` to GitHub Pages (`.github/workflows/pages.yml`). In the repository's Settings, Pages,
 Source must be set to "GitHub Actions".

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dodo: Azure DevOps, without the hassle</title>
+<meta name="description" content="Dodo is a calm, self-hosted work layer on top of Azure DevOps. Open source (MIT), no database, your token stays encrypted in a cookie.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dodo: Azure DevOps, without the hassle">
+<meta property="og:description" content="Dodo is a calm, self-hosted work layer on top of Azure DevOps. Open source (MIT), no database, your token stays encrypted in a cookie.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap">
+<style>
+body{margin:0}
+.theme-light{
+  --color-primary:#2f5fd0;--color-primary-hover:#1f449c;--color-on-primary:#ffffff;
+  --color-link:#2f5fd0;--color-link-hover:#1f449c;--color-focus:#2f5fd0;
+  --color-accent-subtle:#e8efff;--color-on-accent-subtle:#1f449c;
+  --color-text:#1b2430;--color-text-muted:#5b6675;
+  --color-border:#d5dae1;--color-border-subtle:#e3e6eb;--color-divider:#eef0f3;
+  --color-surface:#ffffff;--color-surface-muted:#f6f7f9;--color-surface-lane:#f1f2f4;--color-surface-chip:#eef0f3;
+  --color-danger:#b42318;--color-danger-strong:#9b1c13;--color-danger-subtle:#ffebe6;
+  --color-success:#116b34;--color-success-fill:#177a43;--color-success-subtle:#e3f6ea;
+  --color-warning:#7a4e00;--color-warning-subtle:#fff4d6;
+  --color-estimate-bg:#eef0f3;--color-estimate-text:#3c4656;--color-avatar-other-bg:#e8eaf0;--color-neutral-strong:#3c4656;
+  --color-cat-1-bg:#dbe8fa;--color-cat-1-fg:#14325d;--color-cat-2-bg:#e8dbfa;--color-cat-2-fg:#32145d;
+  --color-cat-3-bg:#fadbf5;--color-cat-3-fg:#5d1450;--color-cat-4-bg:#fadbe0;--color-cat-4-fg:#5d1420;
+  --color-type-epic:#6b4bd8;--color-type-feature:#2f8f5b;--color-type-story:#2f5fd0;--color-type-task:#5b6675;--color-type-bug:#b42318;
+  --color-inverse-surface:#1b2430;--color-inverse-text:#ffffff;--color-inverse-text-muted:#c9d1dc;
+  --code-bg:#1b2430;--code-text:#e6eaf0;--code-muted:#a9b3c1;
+}
+.theme-dark{
+  --color-primary:#2f5fd0;--color-primary-hover:#1f449c;--color-on-primary:#ffffff;
+  --color-link:#7ea2ff;--color-link-hover:#a9c1ff;--color-focus:#7ea2ff;
+  --color-accent-subtle:#1b2a4d;--color-on-accent-subtle:#a9c1ff;
+  --color-text:#e6eaf0;--color-text-muted:#a9b3c1;
+  --color-border:#3a4454;--color-border-subtle:#2b3340;--color-divider:#262d38;
+  --color-surface:#1c222b;--color-surface-muted:#12161c;--color-surface-lane:#171c23;--color-surface-chip:#262d38;
+  --color-danger:#ff8f80;--color-danger-strong:#ffa99d;--color-danger-subtle:#3b1f1d;
+  --color-success:#6fd49a;--color-success-fill:#177a43;--color-success-subtle:#16342a;
+  --color-warning:#f2c76b;--color-warning-subtle:#3a3014;
+  --color-estimate-bg:#2b3340;--color-estimate-text:#e6eaf0;--color-avatar-other-bg:#2f3744;--color-neutral-strong:#c4ccd8;
+  --color-cat-1-bg:#263b59;--color-cat-1-fg:#c5dcfc;--color-cat-2-bg:#3b2659;--color-cat-2-fg:#dcc5fc;
+  --color-cat-3-bg:#592651;--color-cat-3-fg:#fcc5f3;--color-cat-4-bg:#59262f;--color-cat-4-fg:#fcc5ce;
+  --color-type-epic:#8a6fe8;--color-type-feature:#2f8f5b;--color-type-story:#7ea2ff;--color-type-task:#a9b3c1;--color-type-bug:#ff8f80;
+  --color-inverse-surface:#2b3340;--color-inverse-text:#e6eaf0;--color-inverse-text-muted:#c9d1dc;
+  --code-bg:#0c0f13;--code-text:#e6eaf0;--code-muted:#a9b3c1;
+}
+.dodo-page{font-family:'DM Sans',system-ui,sans-serif;line-height:1.4;-webkit-font-smoothing:antialiased}
+.dodo-page a{color:var(--color-link);text-decoration:underline;text-underline-offset:2px}
+.dodo-page a:hover{color:var(--color-link-hover)}
+.dodo-page a:focus-visible,.dodo-page button:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px}
+.dodo-page code,.dodo-page pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.dodo-page a.btn-primary{color:var(--color-on-primary);text-decoration:none;background:var(--color-primary)}
+.dodo-page a.btn-primary:hover{background:var(--color-primary-hover);color:var(--color-on-primary)}
+.dodo-page a.btn-secondary{color:var(--color-text);text-decoration:none;background:var(--color-surface)}
+.dodo-page a.btn-secondary:hover{background:var(--color-surface-muted);color:var(--color-text)}
+.dodo-page a.nav-link{color:var(--color-text-muted);text-decoration:none}
+.dodo-page a.nav-link:hover{color:var(--color-text)}
+.dodo-page .top-nav{display:flex;flex-wrap:wrap;gap:4px 20px;flex:1 1 auto;font-size:14px;font-weight:500}
+.dodo-page header{position:relative}
+.dodo-page .mobile-menu{display:none;margin-left:auto}
+.dodo-page .menu-btn{list-style:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--color-border);border-radius:4px;background:var(--color-surface);color:var(--color-text)}
+.dodo-page .menu-btn::-webkit-details-marker{display:none}
+.dodo-page .menu-btn:hover{background:var(--color-surface-muted)}
+.dodo-page .mobile-menu[open] .ico-menu,.dodo-page .mobile-menu:not([open]) .ico-close{display:none}
+.dodo-page .mobile-panel{position:absolute;left:0;right:0;top:100%;z-index:50;display:flex;flex-direction:column;padding:4px 24px 8px;background:var(--color-surface);border-bottom:1px solid var(--color-border-subtle);box-shadow:0 8px 16px rgba(9,30,66,0.12)}
+@media (max-width:820px){
+.dodo-page .mobile-menu{display:block}
+.dodo-page .top-nav,.dodo-page .desk-only{display:none !important}
+.dodo-page a.nav-link{display:inline-flex;align-items:center;min-height:44px}
+.dodo-page header a.brand{min-height:44px}
+}
+.dodo-page a.doc-link{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border:1px solid var(--color-border-subtle);border-radius:4px;background:var(--color-surface-muted);color:var(--color-text);text-decoration:none}
+.dodo-page a.doc-link:hover{background:var(--color-accent-subtle);border-color:var(--color-primary);color:var(--color-text)}
+@media (prefers-color-scheme: dark){
+.theme-light{
+  --color-primary:#2f5fd0;--color-primary-hover:#1f449c;--color-on-primary:#ffffff;
+  --color-link:#7ea2ff;--color-link-hover:#a9c1ff;--color-focus:#7ea2ff;
+  --color-accent-subtle:#1b2a4d;--color-on-accent-subtle:#a9c1ff;
+  --color-text:#e6eaf0;--color-text-muted:#a9b3c1;
+  --color-border:#3a4454;--color-border-subtle:#2b3340;--color-divider:#262d38;
+  --color-surface:#1c222b;--color-surface-muted:#12161c;--color-surface-lane:#171c23;--color-surface-chip:#262d38;
+  --color-danger:#ff8f80;--color-danger-strong:#ffa99d;--color-danger-subtle:#3b1f1d;
+  --color-success:#6fd49a;--color-success-fill:#177a43;--color-success-subtle:#16342a;
+  --color-warning:#f2c76b;--color-warning-subtle:#3a3014;
+  --color-estimate-bg:#2b3340;--color-estimate-text:#e6eaf0;--color-avatar-other-bg:#2f3744;--color-neutral-strong:#c4ccd8;
+  --color-cat-1-bg:#263b59;--color-cat-1-fg:#c5dcfc;--color-cat-2-bg:#3b2659;--color-cat-2-fg:#dcc5fc;
+  --color-cat-3-bg:#592651;--color-cat-3-fg:#fcc5f3;--color-cat-4-bg:#59262f;--color-cat-4-fg:#fcc5ce;
+  --color-type-epic:#8a6fe8;--color-type-feature:#2f8f5b;--color-type-story:#7ea2ff;--color-type-task:#a9b3c1;--color-type-bug:#ff8f80;
+  --color-inverse-surface:#2b3340;--color-inverse-text:#e6eaf0;--color-inverse-text-muted:#c9d1dc;
+  --code-bg:#0c0f13;--code-text:#e6eaf0;--code-muted:#a9b3c1;
+}
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="dodo-page theme-light" style="background: var(--color-surface-muted); color: var(--color-text); font-size: 14px; min-height: 100%;">
+
+<!-- Top bar -->
+<header style="background: var(--color-surface); border-bottom: 1px solid var(--color-border-subtle);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;">
+    <a class="brand" href="#top" style="display: flex; align-items: center; gap: 10px; color: var(--color-text); text-decoration: none;" aria-label="Dodo home">
+      <span style="display: block; width: 20px; height: 20px; border-radius: 6px; background: var(--color-primary);" aria-hidden="true"></span>
+      <span style="font-size: 18px; font-weight: 700;">Dodo</span>
+    </a>
+    <span class="ver-chip" style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: var(--color-surface-chip); color: var(--color-text-muted);">v0.12.5</span>
+    <nav class="top-nav" aria-label="Page">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#privacy">Privacy</a>
+      <a class="nav-link" href="#quickstart">Self-host</a>
+      <a class="nav-link" href="#releases">Releases</a>
+      <a class="nav-link" href="#built-by-ai">Built by AI</a>
+    </nav>
+    <a class="nav-link desk-only" href="nl/" hreflang="nl" lang="nl" style="font-weight: 500;">Nederlands</a>
+    <a class="btn-secondary desk-only" href="https://github.com/StanNieuwmans/Dodo" style="display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border: 1px solid var(--color-border); border-radius: 4px; font-weight: 600;">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="fill: currentColor;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+    <details class="mobile-menu">
+      <summary class="menu-btn" aria-label="Menu">
+        <svg class="ico-menu" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"></path></svg>
+        <svg class="ico-close" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"></path></svg>
+      </summary>
+      <nav class="mobile-panel" aria-label="Menu">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#privacy">Privacy</a>
+        <a class="nav-link" href="#quickstart">Self-host</a>
+        <a class="nav-link" href="#releases">Releases</a>
+        <a class="nav-link" href="#built-by-ai">Built by AI</a>
+        <a class="nav-link" href="nl/" hreflang="nl" lang="nl">Nederlands</a>
+        <a class="nav-link" href="https://github.com/StanNieuwmans/Dodo">GitHub</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- Hero -->
+<section style="max-width: 1200px; margin: 0 auto; padding: 72px 24px 40px; display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: flex-end;">
+  <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; background: var(--color-accent-subtle); color: var(--color-on-accent-subtle);">Open source · MIT</span>
+      <span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; background: var(--color-surface-chip); color: var(--color-text-muted);">Self-hosted</span>
+      <span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; background: var(--color-surface-chip); color: var(--color-text-muted);">No database</span>
+    </div>
+    <h1 style="margin: 0; font-size: 56px; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em;">Azure DevOps,<br>without the hassle.</h1>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: var(--color-text-muted); max-width: 560px;">Dodo is a calm work layer on top of the Azure DevOps REST API. The same work items, shown one question per screen. You run it yourself, and your data never leaves Azure DevOps.</p>
+    <p style="margin: 0; font-size: 14px; color: var(--color-text-muted); max-width: 560px;"><strong style="font-weight: 600; color: var(--color-text);">Status: pre-1.0.</strong> Dodo is built phase by phase and used every day, but things still change between versions. Read the release notes before you update.</p>
+  </div>
+  <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+      <a class="btn-primary" href="#quickstart" style="display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 4px; font-weight: 600; font-size: 15px;">Run it yourself</a>
+      <a class="btn-secondary" href="https://github.com/StanNieuwmans/Dodo" style="display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border: 1px solid var(--color-border); border-radius: 4px; font-weight: 600; font-size: 15px;">View the source</a>
+    </div>
+    <div style="background: var(--code-bg); color: var(--code-text); border-radius: 8px; padding: 14px 16px; font-size: 13px; overflow-x: auto;">
+      <pre style="margin: 0; white-space: pre;"><span style="color: var(--code-muted);">$</span> git clone https://github.com/StanNieuwmans/Dodo &amp;&amp; cd Dodo &amp;&amp; docker compose up -d</pre>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">One command, only Docker needed. Then open localhost:3000 and sign in with a personal access token.</p>
+  </div>
+</section>
+
+<!-- App preview -->
+<section aria-labelledby="shots-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px; display: flex; flex-direction: column; gap: 16px;">
+  <h2 id="shots-title" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Screenshots</h2>
+  <div role="region" aria-label="The Dodo screenshots, scroll sideways for more" tabindex="0" style="display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 16px;">
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/board-light.png" alt="The Dodo sprint board for Sprint 14, with To do, In progress and Done columns and two blocked cards in red." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">The sprint board. Blocked items always carry the label and the reason, not just a colour.</figcaption>
+    </figure>
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/board-dark.png" alt="The same sprint board in the dark theme." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">The dark theme, same layout.</figcaption>
+    </figure>
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/blocked-light.png" alt="The Blocked overview with items grouped by how long they have been blocked." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">Blocked, grouped by how long items have been stuck.</figcaption>
+    </figure>
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/item-light.png" alt="An item page with a list of tasks, linked items and a details panel." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">An item with its tasks, links and details.</figcaption>
+    </figure>
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/palette-light.png" alt="The command palette open over the board, with recent items and actions." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">The command palette on Ctrl K.</figcaption>
+    </figure>
+    <figure style="margin: 0; flex: 0 0 auto; width: min(82vw, 780px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px;">
+      <img src="img/teamboard-light.png" alt="A team board called Information requests with a Backlog column and a Sprint column." style="display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--color-border-subtle); box-shadow: 0 8px 24px rgba(9,30,66,0.14);">
+      <figcaption style="font-size: 13px; color: var(--color-text-muted);">A team board for one way of working.</figcaption>
+    </figure>
+  </div>
+  <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">Screenshots of Dodo running against the mock Azure DevOps that ships with it. The items are example data, so some titles are in Dutch.</p>
+</section>
+
+<!-- Principles -->
+<section aria-labelledby="why" style="background: var(--color-surface); border-top: 1px solid var(--color-border-subtle); border-bottom: 1px solid var(--color-border-subtle);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 40px;">
+    <div style="max-width: 640px; display: flex; flex-direction: column; gap: 12px;">
+      <h2 id="why" style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">Not a replacement. A calmer front door.</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--color-text-muted);">Azure DevOps has everything a team needs, but it shows too much at once. Dodo reads and writes the same work items through the REST API and only shows what matters to you right now.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-link);">01</div>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Calm by design</h3>
+        <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Every view answers one question. Optional things start collapsed, and things you can't use stay visible with the reason in text.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-link);">02</div>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Azure DevOps stays the source</h3>
+        <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">No data moves. Dodo works with your team's own process: state categories instead of hard-coded state names, and types straight from the API.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-link);">03</div>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Confirm before changing</h3>
+        <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Bulk moves, the assistant and team-board rules show what will change before anything is written. Light actions come with Undo.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-link);">04</div>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Keyboard and screen reader</h3>
+        <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Built to WCAG 2.2 AA. Everything works from the keyboard, dragging cards included: Space picks a card up, the arrow keys move it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" aria-labelledby="features-title" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px;">
+    <div style="max-width: 640px; display: flex; flex-direction: column; gap: 12px;">
+      <h2 id="features-title" style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">Everything a sprint needs, nothing more</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--color-text-muted);">Twelve phases in, Dodo covers the daily work of a Scrum team, from your own list to the team's way of working.</p>
+    </div>
+    <a href="https://github.com/StanNieuwmans/Dodo/tree/main/docs/releasenotes" style="font-weight: 600;">All release notes</a>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">My work</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Your items, the ones you follow and your newest notifications on one page. You choose which blocks show.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16M15 4v16"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">A live sprint board</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">To do, In progress and Done by state category, story points per column, and quiet updates every 30 seconds while the tab is open.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10l2 2v16H5V5z"></path><path d="M9 10h6M9 14h6M9 18h3"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Items you can actually read</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">One page per item with details, tasks, links, attachments, comments with @-mentions and linked pull requests. Edit, finish or delete in one go.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M6 18L18 6"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Blocked, at a glance</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">All blocked items of your team, grouped by how long they've been stuck. Ask someone for help or unblock with a note, right from the card.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="5" height="14" rx="1.5"></rect><rect x="10" y="5" width="5" height="9" rx="1.5"></rect><rect x="17" y="5" width="4" height="11" rx="1.5"></rect></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Team boards</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Build a board for one way of working, like intake or bug triage, with rules for what a drag does. Every publication is a version you can restore.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M7 10h1M11 10h1M15 10h2M7 14h10"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Command palette and shortcuts</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Ctrl K finds any item by title or #number and runs any action. G then B opens the board, N makes a new item, ? lists the rest.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path><path d="M8 9.5h8M8 12.5h5"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">An assistant that asks first</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Off by default. Bring your own key (Anthropic, OpenAI or Azure OpenAI) to ask questions with sources, draft tasks or summarize an item. Nothing changes without your confirmation.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13l2.5-7h11L20 13v6H4z"></path><path d="M4 13h4.5l1 2h5l1-2H20"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Backlog and inbox</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Select up to 50 backlog items and move them to a sprint in one step, with an overview first. The inbox collects mentions, assignments and changes to items you follow.</p>
+    </div>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke: var(--color-link);" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 3.5v17"></path><path d="M12 3.5a8.5 8.5 0 0 1 0 17" style="fill: var(--color-link);"></path></svg>
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Light, dark, Dutch, English</h3>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Choose a theme or follow your computer. All of Dodo's own text exists in Dutch and English; what comes from Azure DevOps is shown as-is.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Privacy -->
+<section id="privacy" aria-labelledby="privacy-title" style="background: var(--color-surface-muted); border-top: 1px solid var(--color-border-subtle); border-bottom: 1px solid var(--color-border-subtle);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 56px 24px; display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start;">
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+      <h2 id="privacy-title" style="margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.01em;">Your token stays yours</h2>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">No central service, no database. A small server passes your calls to Azure DevOps and keeps nothing.</p>
+      <ul style="margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Encrypted cookie.</strong> <span style="color: var(--color-text-muted);">Tokens and AI keys never reach logs, files or browser JavaScript.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Your permissions only.</strong> <span style="color: var(--color-text-muted);">Work Items (read and write) is enough.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">One file exception.</strong> <span style="color: var(--color-text-muted);">Team board layouts are saved on your server, never item text.</span></span></li>
+      </ul>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+      <div style="border: 2px solid var(--color-primary); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; background: var(--color-accent-subtle); color: var(--color-on-accent-subtle);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><h3 style="margin: 0; font-size: 16px; font-weight: 700;">Local mode</h3><span style="font-size: 12px; font-weight: 600;">Default</span></div>
+        <p style="margin: 0; line-height: 1.5;">On your own computer. Nothing to configure.</p>
+        <code style="font-size: 12px;">DODO_MODE=local</code>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; background: var(--color-surface);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><h3 style="margin: 0; font-size: 16px; font-weight: 700;">Shared mode</h3><span style="font-size: 12px; font-weight: 600; color: var(--color-text-muted);">For a team</span></div>
+        <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">On a server, behind an access password.</p>
+        <code style="font-size: 12px;">DODO_MODE=shared</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quickstart -->
+<section id="quickstart" aria-labelledby="quickstart-title" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px;">
+  <div style="max-width: 640px; display: flex; flex-direction: column; gap: 12px;">
+    <h2 id="quickstart-title" style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">Running in three steps</h2>
+    <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--color-text-muted);">All you need is Docker and a clone of the repo. Node is optional.</p>
+  </div>
+  <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+    <li style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: var(--color-on-primary); font-weight: 700; display: inline-flex; align-items: center; justify-content: center;">1</span>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Get the code</h3>
+      </div>
+      <pre style="margin: 0; padding: 14px 16px; border-radius: 8px; background: var(--code-bg); color: var(--code-text); font-size: 12.5px; line-height: 1.6; overflow-x: auto;"><span style="color: var(--code-muted);">$</span> git clone https://github.com/StanNieuwmans/Dodo
+<span style="color: var(--code-muted);">$</span> cd Dodo</pre>
+    </li>
+    <li style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: var(--color-on-primary); font-weight: 700; display: inline-flex; align-items: center; justify-content: center;">2</span>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Start it</h3>
+      </div>
+      <pre style="margin: 0; padding: 14px 16px; border-radius: 8px; background: var(--code-bg); color: var(--code-text); font-size: 12.5px; line-height: 1.6; overflow-x: auto;"><span style="color: var(--code-muted);"># keeps team boards in a volume</span>
+<span style="color: var(--code-muted);">$</span> docker compose up -d</pre>
+      <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">Or <code>docker build -t dodo .</code> and <code>docker run</code> it yourself.</p>
+    </li>
+    <li style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: var(--color-on-primary); font-weight: 700; display: inline-flex; align-items: center; justify-content: center;">3</span>
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">Sign in</h3>
+      </div>
+      <p style="margin: 0; line-height: 1.5;">Open <code style="font-size: 13px; padding: 1px 6px; border-radius: 4px; background: var(--color-surface-chip);">localhost:3000</code> and paste a personal access token.</p>
+      <div style="padding: 12px 14px; border-radius: 4px; background: var(--color-accent-subtle); color: var(--color-on-accent-subtle); font-size: 13px; line-height: 1.5;">Make a token with only Work Items (read and write) and a short lifetime.</div>
+    </li>
+  </ol>
+  <div style="background: var(--color-warning-subtle); color: var(--color-warning); border-radius: 4px; padding: 14px 16px; line-height: 1.5;"><strong style="font-weight: 700;">What you need.</strong> Docker, and an Azure DevOps Services organisation (dev.azure.com). Azure DevOps Server (on-premises) is not supported today.</div>
+  <nav aria-label="More ways to run Dodo" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px;">
+    <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/installatie.md#gedeeld-op-railway"><span style="font-weight: 600;">Run it for a team on Railway</span><span style="font-size: 13px; color: var(--color-text-muted);">Shared mode with an access password</span></a>
+    <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/installatie.md"><span style="font-weight: 600;">Installing and configuring</span><span style="font-size: 13px; color: var(--color-text-muted);">Variables, reverse proxy, backups, updates</span></a>
+    <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/installatie.md#risicos-voor-wie-dodo-zelf-installeert"><span style="font-weight: 600;">Risks of self-hosting</span><span style="font-size: 13px; color: var(--color-text-muted);">Read this before you share it</span></a>
+    <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/problemen-oplossen.md"><span style="font-weight: 600;">Troubleshooting</span><span style="font-size: 13px; color: var(--color-text-muted);">401, 429, no connection</span></a>
+  </nav>
+</section>
+
+<!-- Organisation config -->
+<section id="organisation" aria-labelledby="org-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px;">
+  <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 40px; display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start;">
+    <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+        <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted);">Deploying for an organisation</span>
+      </div>
+      <h2 id="org-title" style="margin: 0; font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em;">One config file for your whole organisation</h2>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Set how Dodo works for your whole organisation in a <code style="font-size: 13px;">dodo.config.json</code>: one file you keep in git, so every change is a reviewed commit and a new deploy. Environment variables still work, for secrets and as an emergency override.</p>
+      <ul style="margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Default or locked.</strong> <span style="color: var(--color-text-muted);">Each setting is either a default people can change, or locked for everyone and read-only in Settings.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Read once at start.</strong> <span style="color: var(--color-text-muted);">Dodo checks it against a schema. A broken file means Dodo won't start. The server never writes it.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Variable first, then file, then default.</strong> <span style="color: var(--color-text-muted);">Existing setups keep working, and a variable can override a locked value in an emergency.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">No secrets in the file.</strong> <span style="color: var(--color-text-muted);">Passwords and keys stay environment variables, so the file is safe in git. On Railway you can paste it into one variable.</span></span></li>
+        <li style="display: flex; gap: 10px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">See where a value comes from.</strong> <span style="color: var(--color-text-muted);">The Diagnose page lists the active settings and their source.</span></span></li>
+      </ul>
+      <a href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/voorstellen/organisatie-instellingen.md" style="font-weight: 600; align-self: flex-start;">Read the design (Dutch)</a>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+      <div style="background: var(--code-bg); color: var(--code-text); border-radius: 8px; padding: 16px 18px; font-size: 12.5px; line-height: 1.65; overflow-x: auto;">
+        <div style="color: var(--code-muted); margin-bottom: 8px;">dodo.config.json</div>
+<pre style="margin: 0;">{
+  "organization": { "org": "contoso", "project": "Webshop" },
+  "blocked": {
+    "tag": { "value": "Impediment", "locked": true },
+    "warnAfterDays": 5
+  },
+  "assistant": {
+    "enabled": true,
+    "providers": ["azure-openai"]
+  },
+  "defaults": { "locale": "nl", "theme": "system" },
+  "diagnose": { "enabled": true }
+}</pre>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">An example of what the file can hold.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Releases -->
+<section id="releases" aria-labelledby="releases-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px; display: flex; flex-wrap: wrap; gap: 48px;">
+  <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+    <h2 id="releases-title" style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">What's new</h2>
+    <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--color-text-muted);">Every release has notes, in Dutch and English. Dodo shows them in the app after an update, once.</p>
+    <a href="https://github.com/StanNieuwmans/Dodo/releases" style="font-weight: 600; margin-top: 4px;">All releases on GitHub</a>
+  </div>
+  <ol style="flex: 2 1 560px; min-width: 0; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 8px;">
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px; border-bottom: 1px solid var(--color-divider); background: var(--color-accent-subtle);">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; align-items: flex-start;"><span style="font-weight: 700; color: var(--color-on-accent-subtle);">Later</span><span style="font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 12px; background: var(--color-primary); color: var(--color-on-primary);">Planned</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600; color: var(--color-on-accent-subtle);">Sign in with Microsoft Entra ID</span><span style="color: var(--color-on-accent-subtle); line-height: 1.5;">Today you sign in with a personal access token. Entra sign-in comes as a second option, if there is demand. Your organisation registers its own app, so there is no shared app of ours and no admin consent with us.</span></div>
+    </li>
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px; border-bottom: 1px solid var(--color-divider); background: var(--color-accent-subtle);">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; align-items: flex-start;"><span style="font-weight: 700; color: var(--color-on-accent-subtle);">Later</span><span style="font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 12px; background: var(--color-primary); color: var(--color-on-primary);">Planned</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600; color: var(--color-on-accent-subtle);">An MCP server for other AI tools</span><span style="color: var(--color-on-accent-subtle); line-height: 1.5;">Let other AI tools work through Dodo, inside Dodo's filters and rules. Off by default and read-only until you allow more, and every change waits for your confirmation. The switch in Settings is there, but disabled for now.</span></div>
+    </li>
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px; border-bottom: 1px solid var(--color-divider);">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700;">0.12</span><span style="font-size: 13px; color: var(--color-text-muted);">Oct 10</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600;">Team boards, switching teams, multi-select on the backlog</span><span style="color: var(--color-text-muted); line-height: 1.5;">Boards with drag rules and versions, Switch team from Ctrl K, and an admin switch for the assistant and MCP server.</span></div>
+    </li>
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px; border-bottom: 1px solid var(--color-divider);">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700;">0.11</span><span style="font-size: 13px; color: var(--color-text-muted);">Oct 6</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600;">Overview of blocked items</span><span style="color: var(--color-text-muted); line-height: 1.5;">Grouped by duration, with Ask someone, Unblock with a note, and sprint changes on the item page.</span></div>
+    </li>
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px; border-bottom: 1px solid var(--color-divider);">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700;">0.10</span><span style="font-size: 13px; color: var(--color-text-muted);">Oct 6</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600;">The assistant</span><span style="color: var(--color-text-muted); line-height: 1.5;">Questions with sources from the search window, and selecting several cards on the board.</span></div>
+    </li>
+    <li style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 20px 24px;">
+      <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700;">0.9</span><span style="font-size: 13px; color: var(--color-text-muted);">Oct 5</span></div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><span style="font-weight: 600;">Search, shortcuts and a dark theme</span><span style="color: var(--color-text-muted); line-height: 1.5;">The command palette, keyboard shortcuts for every page, and Light, Dark or Like my computer.</span></div>
+    </li>
+  </ol>
+</section>
+
+<!-- Built by AI -->
+<section id="built-by-ai" aria-labelledby="ai-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px;">
+  <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 40px; display: flex; flex-wrap: wrap; gap: 40px 56px;">
+    <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+      <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted);">How it's made</span>
+      <h2 id="ai-title" style="margin: 0; font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em;">Built by AI agents, decided by a person, checked every phase</h2>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Claude agents write all of Dodo's code. They don't decide what Dodo is. Anything the spec, the decisions or the designs don't answer becomes a question for the product owner, and the answer is written down in the repo.</p>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Agents plan the work, build it in small tasks and test it. A separate reviewer then tries to break each task before it is merged.</p>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+      <div style="background: var(--color-surface-muted); border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">The check before every release</h3>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; line-height: 1.5;">
+          <li style="display: flex; gap: 12px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Three testers.</strong> <span style="color: var(--color-text-muted);">Build, types, lint and unit tests; end-to-end runs with an accessibility scan in Dutch and English, light and dark; and every "done when" criterion in the spec.</span></span></li>
+          <li style="display: flex; gap: 12px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Six reviewers.</strong> <span style="color: var(--color-text-muted);">Correctness, security, spec, design, accessibility, and language and code quality.</span></span></li>
+          <li style="display: flex; gap: 12px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Every finding is checked again</strong> <span style="color: var(--color-text-muted);">by a separate verifier before it counts.</span></span></li>
+          <li style="display: flex; gap: 12px;"><span style="color: var(--color-success); font-weight: 700;" aria-hidden="true">✓</span><span><strong style="font-weight: 600;">Only then a pull request,</strong> <span style="color: var(--color-text-muted);">and CI on GitHub has to be green too.</span></span></li>
+        </ul>
+      </div>
+      <nav aria-label="Proof" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px;">
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/tree/main/src"><span style="font-weight: 600;">550+ test files</span><span style="font-size: 13px; color: var(--color-text-muted);">Unit and component tests</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/tree/main/e2e"><span style="font-weight: 600;">End-to-end with axe</span><span style="font-size: 13px; color: var(--color-text-muted);">Playwright flows, WCAG scan</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/workflow.md"><span style="font-weight: 600;">The workflow</span><span style="font-size: 13px; color: var(--color-text-muted);">Roles, waves and the gate</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/decisions.md"><span style="font-weight: 600;">Product owner decisions</span><span style="font-size: 13px; color: var(--color-text-muted);">Every answer, written down</span></a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- Contribute -->
+<section aria-labelledby="contribute-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px;">
+  <div style="background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 40px; display: flex; flex-wrap: wrap; gap: 32px 48px;">
+    <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+      <h2 id="contribute-title" style="margin: 0; font-size: 24px; font-weight: 700;">Read the source, open an issue</h2>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-text-muted);">Dodo is MIT licensed. Found something that doesn't fit your team's process? Open an issue. The spec and the product owner's decisions come first, so start there.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">SvelteKit 2</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">Svelte 5</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">TypeScript strict</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">Node 22</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">Vitest</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">Playwright + axe</span>
+        <span style="font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 13px; background: var(--color-surface-chip);">Docker</span>
+      </div>
+    </div>
+    <nav aria-label="Project documents" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px;">
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/spec.md"><span style="font-weight: 600;">Specification</span><span style="font-size: 13px; color: var(--color-text-muted);">What Dodo does and why</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/decisions.md"><span style="font-weight: 600;">Decisions</span><span style="font-size: 13px; color: var(--color-text-muted);">Answers from the product owner</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/designsysteem/README.md"><span style="font-weight: 600;">Design system</span><span style="font-size: 13px; color: var(--color-text-muted);">Tokens, rules and components</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/fases.md"><span style="font-weight: 600;">Roadmap</span><span style="font-size: 13px; color: var(--color-text-muted);">The plan, phase by phase</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/docs/ontwikkelen.md"><span style="font-weight: 600;">Developing locally</span><span style="font-size: 13px; color: var(--color-text-muted);">Dev server and mock Azure DevOps</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/CLAUDE.md"><span style="font-weight: 600;">Agent agreements</span><span style="font-size: 13px; color: var(--color-text-muted);">How the AI agents work</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/issues"><span style="font-weight: 600;">Issues</span><span style="font-size: 13px; color: var(--color-text-muted);">Report a problem or idea</span></a>
+        <a class="doc-link" href="https://github.com/StanNieuwmans/Dodo/blob/main/LICENSE"><span style="font-weight: 600;">MIT license</span><span style="font-size: 13px; color: var(--color-text-muted);">Free to use and change</span></a>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">Most project documents are written in Dutch.</p>
+    </nav>
+  </div>
+</section>
+
+<!-- Name -->
+<section aria-labelledby="name-title" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 88px;">
+  <div style="background: var(--color-accent-subtle); border-radius: 12px; padding: 32px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px 48px;">
+    <div style="flex: 0 1 auto; display: flex; align-items: baseline; gap: 4px; font-size: 40px; font-weight: 700; letter-spacing: -0.02em; color: var(--color-on-accent-subtle);" aria-hidden="true">
+      <span>DO</span><span style="opacity: 0.55;">od aan a</span><span>DO</span>
+    </div>
+    <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+      <h2 id="name-title" style="margin: 0; font-size: 18px; font-weight: 700; color: var(--color-on-accent-subtle);">Why “Dodo”?</h2>
+      <p style="margin: 0; line-height: 1.5; color: var(--color-on-accent-subtle);">It's short for <em>DOod aan aDO</em>, Dutch for “down with ADO”. A joke, and a promise: the hassle of working in Azure DevOps should disappear, the way the dodo bird did. Dodo doesn't replace Azure DevOps. It needs it, and it keeps every item there.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="border-top: 1px solid var(--color-border-subtle); background: var(--color-surface);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: var(--color-text-muted);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="width: 16px; height: 16px; border-radius: 5px; background: var(--color-primary);" aria-hidden="true"></span>
+      <span>Dodo · MIT · © 2026 Stan Nieuwmans</span>
+    </div>
+    <span>Not affiliated with Microsoft. Azure DevOps is a trademark of Microsoft.</span>
+  </div>
+</footer>
+
+</div>
+
+</body>
+</html>
